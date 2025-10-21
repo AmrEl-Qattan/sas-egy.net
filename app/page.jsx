@@ -3,29 +3,122 @@ import React from "react";
 import { Mail, Phone, CheckCircle, TrendingUp, Globe, Zap } from "lucide-react";
 
 export default function DomainSalePage() {
+  const [language, setLanguage] = React.useState(
+    typeof window !== "undefined" && localStorage.getItem("language")
+      ? localStorage.getItem("language")
+      : (typeof window !== "undefined" && navigator.language.split('-')[0] === "ar" ? "ar" : "en")
+  );
+
   React.useEffect(() => {
-    document.title = "sas-egy.net - Buy Premium Egyptian Domain | Tech for Sale";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Buy sas-egy.net - Premium Egyptian domain for sale. Ideal for tech startups, software companies, and more. Contact us now!"
-      );
+    if (typeof window !== "undefined") {
+      localStorage.setItem("language", language);
+
+      if (language === "ar") {
+        document.title = "sas-egy.net - دومين مميز للبيع | تقنية للبيع";
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute(
+            "content",
+            "اشترِ sas-egy.net - دومين مصري مميز للبيع. مثالي للشركات التقنية، شركات البرمجيات، والمزيد. تواصل الآن!"
+          );
+        } else {
+          const meta = document.createElement("meta");
+          meta.name = "description";
+          meta.content = "اشترِ sas-egy.net - دومين مصري مميز للبيع. مثالي للشركات التقنية، شركات البرمجيات، والمزيد. تواصل الآن!";
+          document.head.appendChild(meta);
+        }
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute(
+            "content",
+            "دومين للبيع, شراء دومين مصري, ستارت أب, تقنية مصر, سعر دومين"
+          );
+        } else {
+          const meta = document.createElement("meta");
+          meta.name = "keywords";
+          meta.content = "دومين للبيع, شراء دومين مصري, ستارت أب, تقنية مصر, سعر دومين";
+          document.head.appendChild(meta);
+        }
+      } else {
+        document.title = "sas-egy.net - Buy Premium Egyptian Domain | Tech for Sale";
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          metaDescription.setAttribute(
+            "content",
+            "Buy sas-egy.net - Premium Egyptian domain for sale. Ideal for tech startups, software companies, and more. Contact us now!"
+          );
+        } else {
+          const meta = document.createElement("meta");
+          meta.name = "description";
+          meta.content = "Buy sas-egy.net - Premium Egyptian domain for sale. Ideal for tech startups, software companies, and more. Contact us now!";
+          document.head.appendChild(meta);
+        }
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords) {
+          metaKeywords.setAttribute(
+            "content",
+            "domain for sale, buy domain Egypt, tech startup, SaaS, Egypt domain"
+          );
+        } else {
+          const meta = document.createElement("meta");
+          meta.name = "keywords";
+          meta.content = "domain for sale, buy domain Egypt, tech startup, SaaS, Egypt domain";
+          document.head.appendChild(meta);
+        }
+      }
+
+      // Add canonical link for SEO
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        canonical.href = "https://sas-egy.net";
+        document.head.appendChild(canonical);
+      }
+    }
+  }, [language]);
+
+  const getContent = () => {
+    if (language === "ar") {
+      return {
+        subHeader: "استعد لهذا الدومين المميز الآن!",
+        benefitsTitle: "مثالي لـ:",
+        benefits: ["شركات البرمجيات", "ستارت أب تقنية", "حلول تقنية"],
+        whyTitle: "لماذا تختاره؟",
+        whyItems: [
+          { text: "سهل التذكر: قصير وسهل الاستدعاء" },
+          { text: "احترافي: مثالي للمشاريع B2B" },
+          { text: "استراتيجي: مركز على مصر مع .net" }
+        ],
+        ctaTitle: "📞 تواصل للشراء:",
+        ctaText: "واتساب الآن",
+        footer: "استفسارات جادة فقط • نقل سريع • صفقة آمنة\nآخر تحديث: 21 أكتوبر 2025",
+        toggleText: "تغيير إلى الإنجليزية"
+      };
     } else {
-      const meta = document.createElement("meta");
-      meta.name = "description";
-      meta.content = "Buy sas-egy.net - Premium Egyptian domain for sale. Ideal for tech startups, software companies, and more. Contact us now!";
-      document.head.appendChild(meta);
+      return {
+        subHeader: "Secure this premium domain now!",
+        benefitsTitle: "Perfect For:",
+        benefits: ["Software Companies", "Tech Startups", "Tech Solutions"],
+        whyTitle: "Why Choose This?",
+        whyItems: [
+          { text: "Memorable: Short and easy to recall" },
+          { text: "Professional: Ideal for B2B ventures" },
+          { text: "Strategic: Egypt-focused with .net appeal" }
+        ],
+        ctaTitle: "📞 Contact to Purchase:",
+        ctaText: "WhatsApp Now",
+        footer: "Serious inquiries only • Quick transfer • Secure deal\nLast updated: October 21, 2025",
+        toggleText: "Switch to Arabic"
+      };
     }
-    // Add canonical link for SEO
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      canonical.href = "https://sas-egy.net";
-      document.head.appendChild(canonical);
-    }
-  }, []);
+  };
+
+  const content = getContent();
+
+  const toggleLanguage = () => {
+    setLanguage(language === "ar" ? "en" : "ar");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
@@ -37,6 +130,16 @@ export default function DomainSalePage() {
 
       <main className="relative z-10 max-w-4xl w-full">
         <div className="bg-slate-800/50 backdrop-blur-md rounded-3xl shadow-xl border-2 border-yellow-500/50 p-6 md:p-10 transition-all duration-300 hover:shadow-2xl">
+          {/* Language Toggle Button */}
+          <div className="text-right mb-4">
+            <button
+              onClick={toggleLanguage}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition-all shadow-md"
+            >
+              {content.toggleText}
+            </button>
+          </div>
+
           {/* Header */}
           <div className="text-center mb-6">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full mb-4 shadow-md">
@@ -48,7 +151,7 @@ export default function DomainSalePage() {
               <span className="inline-block animate-bounce">🚀</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 mb-2">
-              Secure this premium domain now!
+              {content.subHeader}
             </p>
           </div>
 
@@ -56,20 +159,20 @@ export default function DomainSalePage() {
           <div className="bg-slate-700/30 rounded-2xl p-4 mb-6">
             <h2 className="text-xl md:text-2xl font-bold text-white mb-3 flex items-center justify-center">
               <Globe className="w-5 h-5 md:w-6 md:h-6 mr-2 text-yellow-400" />
-              Perfect For:
+              {content.benefitsTitle}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm md:text-base">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
-                <span className="text-gray-300">Software Companies</span>
+                <span className="text-gray-300">{content.benefits[0]}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
-                <span className="text-gray-300">Tech Startups</span>
+                <span className="text-gray-300">{content.benefits[1]}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
-                <span className="text-gray-300">Tech Solutions</span>
+                <span className="text-gray-300">{content.benefits[2]}</span>
               </div>
             </div>
           </div>
@@ -78,22 +181,22 @@ export default function DomainSalePage() {
           <div className="mb-6">
             <h2 className="text-xl md:text-2xl font-bold text-white mb-3 flex items-center">
               <TrendingUp className="w-5 h-5 md:w-6 md:h-6 mr-2 text-yellow-400" />
-              Why Choose This?
+              {content.whyTitle}
             </h2>
             <div className="space-y-3">
               <div className="bg-slate-700/20 rounded-lg p-3 md:p-4 border border-slate-600/30 hover:bg-slate-700/40 transition-colors">
                 <p className="text-gray-300 text-sm md:text-base">
-                  <span className="text-yellow-400 font-semibold">✓ Memorable:</span> Short and easy to recall
+                  <span className="text-yellow-400 font-semibold">✓</span> {content.whyItems[0].text}
                 </p>
               </div>
               <div className="bg-slate-700/20 rounded-lg p-3 md:p-4 border border-slate-600/30 hover:bg-slate-700/40 transition-colors">
                 <p className="text-gray-300 text-sm md:text-base">
-                  <span className="text-yellow-400 font-semibold">✓ Professional:</span> Ideal for B2B ventures
+                  <span className="text-yellow-400 font-semibold">✓</span> {content.whyItems[1].text}
                 </p>
               </div>
               <div className="bg-slate-700/20 rounded-lg p-3 md:p-4 border border-slate-600/30 hover:bg-slate-700/40 transition-colors">
                 <p className="text-gray-300 text-sm md:text-base">
-                  <span className="text-yellow-400 font-semibold">✓ Strategic:</span> Egypt-focused with .net appeal
+                  <span className="text-yellow-400 font-semibold">✓</span> {content.whyItems[2].text}
                 </p>
               </div>
             </div>
@@ -102,7 +205,7 @@ export default function DomainSalePage() {
           {/* CTA */}
           <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-2xl p-5 md:p-6 text-center shadow-xl">
             <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">
-              📞 Contact to Purchase:
+              {content.ctaTitle}
             </h2>
             <a
               href="https://wa.me/201556722667"
@@ -111,16 +214,15 @@ export default function DomainSalePage() {
               rel="noopener noreferrer"
             >
               <Phone className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="font-semibold text-base md:text-lg">WhatsApp Now</span>
+              <span className="font-semibold text-base md:text-lg">{content.ctaText}</span>
             </a>
           </div>
 
           {/* Footer */}
           <div className="mt-6 text-center">
             <p className="text-gray-400 text-xs md:text-sm">
-              Serious inquiries only • Quick transfer • Secure deal
+              {content.footer}
             </p>
-            <p className="text-gray-500 text-xs mt-1">Last updated: October 21, 2025</p>
           </div>
         </div>
 
@@ -129,8 +231,10 @@ export default function DomainSalePage() {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: "sas-egy.net Domain",
-            description: "Premium Egyptian domain for sale, ideal for tech businesses",
+            name: language === "ar" ? "دومين sas-egy.net" : "sas-egy.net Domain",
+            description: language === "ar"
+              ? "دومين مصري مميز للبيع، مثالي للشركات التقنية"
+              : "Premium Egyptian domain for sale, ideal for tech businesses",
             category: "Domain Names",
             offers: {
               "@type": "Offer",
